@@ -1,0 +1,16 @@
+公钥
+openssl genrsa -out server.key 2048
+或者
+openssl ecparam -genkey -name secp384r1 -out server.key
+私钥
+openssl req -new -x509 -sha256 -key server.key -out server.pem -days 3650
+
+Country Name (2 letter code) [AU]:CN
+State or Province Name (full name) [Some-State]:anhui
+Locality Name (eg, city) []:hefei
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:terry CO. Ltd
+Organizational Unit Name (eg, section) []:Dev
+Common Name (e.g. server FQDN or YOUR name) []:java-grpc-tls
+Email Address []:taiyueliu@126.com
+
+客户端的overrideAuthority就是输入的Common Name (e.g. server FQDN or YOUR name) []

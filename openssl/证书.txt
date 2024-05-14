@@ -1,0 +1,28 @@
+#生成RSA私钥(无加密)
+openssl genrsa -out ca.key 2048
+#使用 已有RSA 私钥生成自签名证书
+openssl req -new -x509 -key ca.key -days 3650 -out ca.crt
+Country Name (2 letter code) [AU]:CN
+State or Province Name (full name) [Some-State]:anhui
+Locality Name (eg, city) []:hefei
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:terry CO. Ltd
+Organizational Unit Name (eg, section) []:Dev
+Common Name (e.g. server FQDN or YOUR name) []:java-grpc-tls
+Email Address []:taiyueliu@126.com
+
+#openssl req -new -key ca.key -out ca.csr
+
+#复制刚安装的openssl bin目录下的openssl.cfg到项目中
+#开启
+copy_extensions = copy
+req_extensions = v3_req
+#找到[ v3_req ] 添加
+subjectAltName = @alt_names
+#添加alt_names
+[ alt_names ]
+DNS.1 = *.terryliu.com
+
+
+openssl genpkey -algorithm RSA -out test.key
+openssl req -new -nodes -key test.key -out test.csr -subj "/C=cn/OU=java/O=terry/CN=terryliu" -config ./openssl.cfg -extensions v3_req
+openssl x509 -req -days 365 -in test.csr -out test.pem -CA ca.crt -CAkey ca.key -CAcreateserial -extfile ./openssl.cfg -extensions v3_req

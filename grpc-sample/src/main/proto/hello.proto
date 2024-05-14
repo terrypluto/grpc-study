@@ -1,0 +1,21 @@
+syntax = "proto3";
+package hello;
+
+option java_multiple_files=true;
+option java_package="org.terryliu.grpc.sample.hello";
+option java_outer_classname="HelloProto";
+
+service HelloService  {
+  rpc SayHello (HelloRequest) returns (HelloResponse) {}
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+  string firstName = 1;
+  string lastName = 2;
+}
+
+// The response message containing the greetings
+message HelloResponse {
+  string greeting = 1;
+}
